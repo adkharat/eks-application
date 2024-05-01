@@ -22,10 +22,18 @@ stages {
     }
     stage("Push"){
         steps{
-            withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-            sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-            sh "docker push adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}"
-            echo 'image pushed'
+           try {
+                withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]) {
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                    sh "docker push adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}"
+                    echo 'Image pushed'
+                }
+            } catch (Exception e) {
+                echo "Error: ${e.getMessage()}"
+                currentBuild.result = 'FAILURE'
+            } finally {
+                sh "docker rmi adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}" // This will execute regardless of whether an exception occurred or not
+                echo 'Image deleted from Docker engine'
             }
         }
     }
