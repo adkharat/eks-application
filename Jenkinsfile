@@ -13,6 +13,8 @@ stages {
             echo "started docker build image for tag ${env.BUILD_NUMBER}"
             sh "docker build --no-cache -t adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} ./front-end-react-app"
             sh "docker build --no-cache -t adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./first_spring_boot_to_RDS"
+            sh "docker build --no-cache -t adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./second_spring_boot_to_RDS"
+
             echo "code build done on tag ${env.BUILD_NUMBER}"
         }
     }
@@ -27,11 +29,18 @@ stages {
             sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
             sh "docker push adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}"
             sh "docker push adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
+            sh "docker push adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
             echo 'image pushed'
+            }
+        }
+    }
+    stage("Clean up"){
+        steps{
+            echo 'Clean up started'
             sh "docker rmi adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}"
             sh "docker rmi adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
-            echo 'image deleted from docker engine'
-            }
+            sh "docker rmi adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
+            echo 'Cleanup Done'
         }
     }
     // stage('Trigger ManifestUpdate - GitOps') {
