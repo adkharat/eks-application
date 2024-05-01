@@ -105,7 +105,7 @@ function App() {
 
   const handleGetTotalCount = async () => {
     try {
-      const response = await fetch(`${react_app_url}/getTotalCount`);
+      const response = await fetch(`/getTotalCount`);
   
       if (response.ok) {
         const responseData = await response.json();
