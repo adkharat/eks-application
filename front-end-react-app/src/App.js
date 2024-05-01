@@ -59,7 +59,10 @@ function App() {
 
     try {
       console.log(react_app_url);
-      const response = await fetch(`${react_app_url}/addExchangeRate`, {
+      // ALB will handle path based route to service
+      // for local testing create file .env.development.local and give end point of backend servicewith port number for REACT_APP_PUBLIC_URL
+      // const response = await fetch(`${react_app_url}/addExchangeRate`
+      const response = await fetch(`/addExchangeRate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -89,7 +92,8 @@ function App() {
 
     try {
       console.log(react_app_url);
-      const response = await fetch(`${react_app_url}/getAmount?sourceCurrency=${formData.sourceCurrency}&targetCurrency=${formData.targetCurrency}`);
+      const response = await fetch(`/getAmount?sourceCurrency=${formData.sourceCurrency}&targetCurrency=${formData.targetCurrency}`); // ALB will handle path based route to service
+      // const response = await fetch(`${react_app_url}/getAmount?sourceCurrency=${formData.sourceCurrency}&targetCurrency=${formData.targetCurrency}`); // for local testing create file .env.development.local and give end point of backend service
       
       if (response.ok) {
         const responseData = await response.json();
@@ -105,7 +109,8 @@ function App() {
 
   const handleGetTotalCount = async () => {
     try {
-      const response = await fetch(`/getTotalCount`);
+      const response = await fetch(`/getTotalCount`); // ALB will handle path based route to service
+      // const response = await fetch(`${react_app_url}/getTotalCount`); // for local testing create file .env.development.local and give end point of backend service
   
       if (response.ok) {
         const responseData = await response.json();
