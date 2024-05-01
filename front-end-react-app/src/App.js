@@ -21,6 +21,7 @@ function App() {
 
   // Cluster backend service name is "first-service-eks-and-rds" exposed on 8080
   const react_app_url = process.env.REACT_APP_PUBLIC_URL;
+  console.log("Value of enviroment var. REACT_APP_PUBLIC_URL :", react_app_url);
 
   // Function to render the POST response in a table format
   const renderPostResponseTable = () => {
