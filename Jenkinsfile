@@ -43,11 +43,11 @@ stages {
             echo 'Cleanup Done'
         }
     }
-    // stage('Trigger ManifestUpdate - GitOps') {
-    //     steps {
-    //             echo "Triggering updatemanifestjob"
-    //             build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
-    //         }
-    // }
+    stage('Trigger ManifestUpdate - GitOps') {
+        steps {
+                echo "Triggering updatemanifestjob"
+                build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+            }
+    }
 }
 }
