@@ -26,6 +26,7 @@ stages {
             withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
             sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
             sh "docker push adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}"
+            sh "docker push adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
             echo 'image pushed'
             sh "docker rmi adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}"
             sh "docker rmi adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
