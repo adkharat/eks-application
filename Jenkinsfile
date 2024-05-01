@@ -13,7 +13,7 @@ stages {
             echo "started docker build image for tag ${env.BUILD_NUMBER}"
             // sh "docker build --no-cache -t adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} ./front-end-react-app"
             sh "docker build --no-cache -t adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./first_spring_boot_to_RDS"
-            sh "docker build --no-cache -t adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./second_spring_boot_to_RDS"
+            // sh "docker build --no-cache -t adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./second_spring_boot_to_RDS"
             echo "code build done on tag ${env.BUILD_NUMBER}"
         }
     }
