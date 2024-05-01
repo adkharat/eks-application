@@ -124,7 +124,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          KDU-2024 DevOps Track
         </p>
         <form id="exchangeRateForm" onSubmit={handleSubmitExchangeRate}>
           <input type="text" name="currencyFrom" placeholder="Currency From" value={formData.currencyFrom} onChange={handleChange} />
