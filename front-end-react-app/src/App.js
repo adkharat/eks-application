@@ -130,7 +130,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          KDU-2024 DevOps Track
+          KDU-2024 DevOps Track- doubt session
         </p>
         <form id="exchangeRateForm" onSubmit={handleSubmitExchangeRate}>
           <input type="text" name="currencyFrom" placeholder="Currency From" value={formData.currencyFrom} onChange={handleChange} />
