@@ -1,7 +1,7 @@
 pipeline {
 agent any
 tools {
-        gradle 'gradle8-7' //name of  gradle tool configured in Jenkins portal
+        gradle 'gradle8-7' //name of  gradle tool configured in Jenkins tool section
 }
 stages {
     stage('Gradle') {
@@ -25,6 +25,7 @@ stages {
     stage("Gradle build"){
         steps{
             echo 'Generating the Gradle build in build/lib/ folder' //https://tomgregory.com/gradle/gradle-assemble-task-essentials/
+            sh "chmod +x gradlew"
             sh "./gradlew assemble" //Make sure gradle is configured/installed in tool section of Jenkins
         }
     }
