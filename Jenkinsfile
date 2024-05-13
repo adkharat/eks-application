@@ -7,6 +7,7 @@ tools {
 stages {
     stage('Gradle') {
         steps {
+            sh 'pwd'
             echo 'Gradle version is '
             sh 'gradle --version'
         }
