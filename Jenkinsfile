@@ -1,11 +1,25 @@
 pipeline {
 agent any
+tools {
+        gradle gradle8-7 //name of  gradle tool configured in Jenkins portal
+}
 stages {
-
+    stage('CleanWorkspace') {
+        steps {
+            cleanWs()
+            echo 'Workspace cleaned /var/lib/jenkins/workspace'
+        }
+    }
     stage("Clone"){
         steps{
             checkout scm 
-            echo 'Code clone in /var/lib/jenkins/workspace'
+            echo 'Code clone in Workspace /var/lib/jenkins/workspace'
+        }
+    }
+    stage("Gradle build"){
+        steps{
+            echo 'Generating the Gradle build in build/lib/ folder' //https://tomgregory.com/gradle/gradle-assemble-task-essentials/
+            sh "./gradlew assemble" //Make sure gradle is configured/installed in tool section of Jenkins
         }
     }
     stage("Build"){
