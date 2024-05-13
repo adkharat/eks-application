@@ -25,7 +25,7 @@ stages {
     stage("Gradle build"){
         steps{
             echo 'Generating the Gradle build in build/lib/ folder' //https://tomgregory.com/gradle/gradle-assemble-task-essentials/
-            sh "gradle wrapper --project-dir ./first_spring_boot_to_RDS"
+            // sh "gradle wrapper --project-dir ./first_spring_boot_to_RDS"
             sh "./gradlew assemble --project-dir ./first_spring_boot_to_RDS" //Make sure gradle is configured/installed in tool section of Jenkins
         }
     }
