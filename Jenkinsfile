@@ -25,16 +25,14 @@ stages {
             echo 'Code clone in Workspace /var/lib/jenkins/workspace'
         }
     }
-    steps {
-        sh "pwd"
-        dir('first_spring_boot_to_RDS') {
-        sh "pwd"
-        sh "./gradlew assemble"
-        }
-        sh "pwd"
-    } 
     stage("Gradle build"){
         steps{
+            sh "pwd"
+            dir('first_spring_boot_to_RDS') {
+                sh "pwd"
+                sh "./gradlew assemble"
+            }
+            sh "pwd"
             echo 'Generating the Gradle build in build/lib/ folder' //https://tomgregory.com/gradle/gradle-assemble-task-essentials/
             // sh "gradle wrapper --project-dir ./first_spring_boot_to_RDS"
             sh "chmod +x ./first_spring_boot_to_RDS/gradlew"
