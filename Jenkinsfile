@@ -8,6 +8,7 @@ stages {
     stage('Gradle') {
         steps {
             sh 'pwd'
+            sh 'ls -la'
             echo 'Gradle version is '
             sh 'gradle --version'
         }
