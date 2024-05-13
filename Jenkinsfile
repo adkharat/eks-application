@@ -1,7 +1,7 @@
 pipeline {
 agent any
 tools {
-        gradle gradle8-7 //name of  gradle tool configured in Jenkins portal
+        gradle 'gradle8-7' //name of  gradle tool configured in Jenkins portal
 }
 stages {
     stage('CleanWorkspace') {
