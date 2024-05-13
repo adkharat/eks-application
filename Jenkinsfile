@@ -1,7 +1,7 @@
 pipeline {
 agent any
 tools {
-        jdk 'jdk17'
+        // jdk 'jdk17'
         gradle 'gradle8-7' //name of  gradle tool configured in Jenkins tool section
 }
 stages {
