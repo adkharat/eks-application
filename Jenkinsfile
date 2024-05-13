@@ -25,7 +25,7 @@ stages {
     stage("Gradle build"){
         steps{
             echo 'Generating the Gradle build in build/lib/ folder' //https://tomgregory.com/gradle/gradle-assemble-task-essentials/
-            sh "chmod +x gradlew"
+            sh "gradle wrapper"
             sh "./gradlew assemble" //Make sure gradle is configured/installed in tool section of Jenkins
         }
     }
