@@ -4,6 +4,12 @@ tools {
         gradle 'gradle8-7' //name of  gradle tool configured in Jenkins portal
 }
 stages {
+    stage('Gradle') {
+        steps {
+            echo 'Gradle version is '
+            sh 'gradle --version'
+        }
+    }
     stage('CleanWorkspace') {
         steps {
             cleanWs()
