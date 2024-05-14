@@ -113,12 +113,23 @@ pipeline {
         stage("Image vulnerability"){
             steps{
                 echo "Started : Checking Image vulnerability"
-                sh "trivy image adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} > scanning_frontend.txt"
+                sh "trivy image adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} > scanningfrontend.txt"
                 // sh "trivy image adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_1.txt"
                 // sh "trivy image adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_2.txt"
                 echo "Done : Checking Image vulnerability"
             }
         }
+         stage("email"){
+            steps{
+                emailext (to: "${EMAIL_TO}", 
+                attachmentsPattern: "scanningfrontend.txt", 
+                subject: "SUCCESSFUL: Build ${env.JOB_NAME}",
+                body: "Build Successful"
+                )
+            }
+        }
+
+      
         // stage("Docker Push"){
             // steps{
             //     withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
@@ -149,15 +160,17 @@ pipeline {
 
     post {
         failure {
-                mail to: "${EMAIL_TO}",
+                mail to: "${EMAIL_TO}", //https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/
                     cc : "${EMAIL_CC}",
                 subject: "FAILED: Build ${env.JOB_NAME}", 
                 body: "Build failed ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}.\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
         
         success {
-                    mail to: "${EMAIL_TO}",
-                        cc : "${EMAIL_CC}",
+                emailext to: "${EMAIL_TO}", //https://www.jenkins.io/doc/pipeline/steps/email-ext/
+                    // mail to: "${EMAIL_TO}",
+                    //     cc : "${EMAIL_CC}",
+                    
                     body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}",
                     subject: "SUCCESSFUL: Build ${env.JOB_NAME}"
         }
