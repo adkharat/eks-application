@@ -177,13 +177,11 @@ pipeline {
     post{
         always{
             script{
-                steps{
                     emailext (to: "${EMAIL_TO}", 
                     attachmentsPattern: "scanningfrontend.txt", 
                     subject: "SUCCESSFUL: Build ${env.JOB_NAME}",
                     body: "Build Successful"
                     )
-                }
             }
         }
     }
