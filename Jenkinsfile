@@ -21,12 +21,12 @@ pipeline {
                 sh 'gradle --version'
             }
         }
-        // stage('CleanWorkspace') {
-        //     steps {
-        //         cleanWs()
-        //         echo 'Workspace cleaned /var/lib/jenkins/workspace'
-        //     }
-        // }
+        stage('CleanWorkspace') {
+            steps {
+                cleanWs()
+                echo 'Workspace cleaned /var/lib/jenkins/workspace'
+            }
+        }
         // stage("Clone"){
         //     steps{
         //         checkout scm 
