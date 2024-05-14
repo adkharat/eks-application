@@ -27,12 +27,12 @@ pipeline {
                 echo 'Workspace cleaned /var/lib/jenkins/workspace'
             }
         }
-        // stage("Clone"){
-        //     steps{
-        //         checkout scm 
-        //         echo 'Code clone in Workspace /var/lib/jenkins/workspace'
-        //     }
-        // }
+        stage("Clone"){
+            steps{
+                checkout scm 
+                echo 'Code clone in Workspace /var/lib/jenkins/workspace'
+            }
+        }
         // stage("Gradle build"){
         //     steps{
         //         echo 'Generating the Gradle build in build/lib/ folder' //https://tomgregory.com/gradle/gradle-assemble-task-essentials/
@@ -97,36 +97,38 @@ pipeline {
         //         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
         //     }
         // } 
-        // stage("Docker Build"){
-        //     steps{
-        //         echo "started docker build image for tag ${env.BUILD_NUMBER}"
-        //         sh "docker build --no-cache -t adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} ./front-end-react-app"
-        //         // sh "docker build --no-cache -t adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./first_spring_boot_to_RDS"
-        //         // sh "docker build --no-cache -t adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./second_spring_boot_to_RDS"
+        stage("Docker Build"){
+            steps{
+                echo "started docker build image for tag ${env.BUILD_NUMBER}"
+                sh "docker build --no-cache -t adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} ./front-end-react-app"
+                sh "pwd"
+                sh "ls -la"
+                // sh "docker build --no-cache -t adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./first_spring_boot_to_RDS"
+                // sh "docker build --no-cache -t adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./second_spring_boot_to_RDS"
 
-        //         echo "code build done on tag ${env.BUILD_NUMBER}"
-        //     }
-        // }
-        // stage("Image vulnerability"){
-        //     steps{
-        //         echo "Started : Checking Image vulnerability"
-        //         sh "trivy image adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} > scanning_frontend.txt"
-        //         // sh "trivy image adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_1.txt"
-        //         // sh "trivy image adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_2.txt"
-        //         echo "Done : Checking Image vulnerability"
-        //     }
-        // }
-        // stage("Docker Push"){
-        //     steps{
-        //         withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-        //         sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-        //         sh "docker push adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}"
-        //         sh "docker push adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
-        //         sh "docker push adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
-        //         echo 'image pushed'
-        //         }
-        //     }
-        // }
+                echo "code build done on tag ${env.BUILD_NUMBER}"
+            }
+        }
+        stage("Image vulnerability"){
+            steps{
+                echo "Started : Checking Image vulnerability"
+                sh "trivy image adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} > scanning_frontend.txt"
+                // sh "trivy image adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_1.txt"
+                // sh "trivy image adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_2.txt"
+                echo "Done : Checking Image vulnerability"
+            }
+        }
+        stage("Docker Push"){
+            // steps{
+            //     withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+            //     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+            //     sh "docker push adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}"
+            //     sh "docker push adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
+            //     sh "docker push adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER}"
+            //     echo 'image pushed'
+            //     }
+            // }
+        }
         // stage("Docker Clean up"){
         //     steps{
         //         echo 'Clean up started'
@@ -153,10 +155,10 @@ pipeline {
         }
         
         success {
-                // emailext attachmentsPattern: '*.txt',
-                    mail to: "${EMAIL_TO}",
-                        cc : "${EMAIL_CC}",
-                    // to: "${EMAIL_TO}, ${EMAIL_CC}",
+                emailext attachmentsPattern: '*.txt',
+                    // mail to: "${EMAIL_TO}",
+                    //     cc : "${EMAIL_CC}",
+                    to: "${EMAIL_TO}, ${EMAIL_CC}",
                     body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}",
                     subject: "SUCCESSFUL: Build ${env.JOB_NAME}"
         }
