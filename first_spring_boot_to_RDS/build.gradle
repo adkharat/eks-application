@@ -39,7 +39,7 @@ tasks.named('test') {
 
 sonarqube {
     properties {
-       	property 'sonar.host.url', 'http://18.205.238.224/:9000/'
-        property 'sonar.login', 'squ_537d8adfdba54fd8c6c4c77b5a4d7f73beb41387'
+       	property 'sonar.host.url', 'http://18.205.238.224/:9000/' // Todo : Change as per sonar server details
+        property 'sonar.login', 'squ_537d8adfdba54fd8c6c4c77b5a4d7f73beb41387' // Todo : Change as per sonar server details
     }
 }

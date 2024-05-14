@@ -32,11 +32,22 @@ stages {
             dir('first_spring_boot_to_RDS') {
                 sh "pwd"
                 sh "./gradlew assemble"  //Make sure gradle is configured/installed in tool section of Jenkins
+            }
+            sh "pwd"
+            dir('second_spring_boot_to_RDS') {
+                sh "pwd"
+                sh "./gradlew assemble"  //Make sure gradle is configured/installed in tool section of Jenkins              
+            }
+            sh "pwd"
+        }
+    }
+    stage("Static code analysis_Sonarqube"){
+        steps{
+            dir('first_spring_boot_to_RDS') {
                 script{
                     //Gradle build 
                     withSonarQubeEnv(credentialsId: 'sonar') {
-                            // sh 'chmod +x gradlew'
-                            sh './gradlew sonarqube'
+                            sh './gradlew sonarqube' //Make sure gradle plugin ias added in build.gradle file
                     }
                     //quality gate status check
                     timeout(time: 10, unit: 'MINUTES') {
@@ -47,32 +58,23 @@ stages {
                     }
                 }
             }
-            sh "pwd"
             dir('second_spring_boot_to_RDS') {
-                sh "pwd"
-                sh "./gradlew assemble"  //Make sure gradle is configured/installed in tool section of Jenkins
+                script{
+                    //Gradle build 
+                    withSonarQubeEnv(credentialsId: 'sonar') {
+                            sh './gradlew sonarqube' //Make sure gradle plugin ias added in build.gradle file
+                    }
+                    //quality gate status check
+                    timeout(time: 10, unit: 'MINUTES') {
+                      def qg = waitForQualityGate()
+                      if (qg.status != 'OK') {
+                           error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                      }
+                    }
+                }                
             }
-            sh "pwd"
         }
     }
-    // stage("sonar quality check"){
-    //     steps{
-    //             script{
-    //                 //Gradle build 
-    //                 withSonarQubeEnv(credentialsId: 'sonar') {
-    //                         // sh 'chmod +x gradlew'
-    //                         sh './gradlew sonarqube'
-    //                 }
-    //                 //quality gate status check
-    //                 timeout(time: 10, unit: 'MINUTES') {
-    //                   def qg = waitForQualityGate()
-    //                   if (qg.status != 'OK') {
-    //                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
-    //                   }
-    //                 }
-    //             }
-    //         }
-    // }
     stage("Docker Build"){
         steps{
             echo "started docker build image for tag ${env.BUILD_NUMBER}"
