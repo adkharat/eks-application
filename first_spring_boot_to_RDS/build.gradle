@@ -44,7 +44,7 @@ tasks.named('test') {
 //https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/scanners/sonarscanner-for-gradle/
 sonarqube {
     properties {
-       	property 'sonar.host.url', 'http://54.163.26.102:9000/' // Todo : Change as per sonar server details, Move to environment variable
+       	property 'sonar.host.url', System.getenv("SONAR_HOST_URL") // Todo : Change as per sonar server details, Move to environment variable
         property 'sonar.login', 'squ_41f8a6150fbfe0517fa302f9af7c514d946899e7' // Todo : Change as per sonar server details, Move to environment variable
 		property 'sonar.organization', 'kickdrum'
     }
