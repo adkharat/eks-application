@@ -150,39 +150,37 @@ pipeline {
         // }
     }
 
-    // post {
-    //     failure {
-    //             mail to: "${EMAIL_TO}", //https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/
-    //                 cc : "${EMAIL_CC}",
-    //             subject: "FAILED: Build ${env.JOB_NAME}", 
-    //             body: "Build failed ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}.\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
-    //     }
+    post {
+        failure {
+                mail to: "${EMAIL_TO}", //https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/
+                    cc : "${EMAIL_CC}",
+                subject: "FAILED: Build ${env.JOB_NAME}", 
+                body: "Build failed ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}.\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
+        }
         
-    //     success {
-    //             emailext to: "${EMAIL_TO}", //https://www.jenkins.io/doc/pipeline/steps/email-ext/
-    //                 // mail to: "${EMAIL_TO}",
-    //                 //     cc : "${EMAIL_CC}",
-                    
-    //                 body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}",
-    //                 subject: "SUCCESSFUL: Build ${env.JOB_NAME}"
-    //     }
+        success {
+                emailext to: "${EMAIL_TO}", //https://www.jenkins.io/doc/pipeline/steps/email-ext/
+                    attachmentsPattern: "scanningfrontend.txt",
+                    body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}",
+                    subject: "SUCCESSFUL: Build ${env.JOB_NAME}"
+        }
             
-    //     aborted {
-    //             mail to: "${EMAIL_TO}",
-    //                 cc : "${EMAIL_CC}",
-    //                 subject: "ABORTED: Build ${env.JOB_NAME}", 
-    //                 body: "Build was aborted ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
-    //     }
-    // }
-    post{
-        always{
-            script{
-                    emailext (to: "${EMAIL_TO}", 
-                    attachmentsPattern: "scanningfrontend.txt", 
-                    subject: "SUCCESSFUL: Build ${env.JOB_NAME}",
-                    body: "Build Successful"
-                    )
-            }
+        aborted {
+                mail to: "${EMAIL_TO}",
+                    cc : "${EMAIL_CC}",
+                    subject: "ABORTED: Build ${env.JOB_NAME}", 
+                    body: "Build was aborted ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
     }
+    // post{
+    //     always{
+    //         script{
+    //                 emailext (to: "${EMAIL_TO}", 
+    //                 attachmentsPattern: "scanningfrontend.txt", 
+    //                 subject: "SUCCESSFUL: Build ${env.JOB_NAME}",
+    //                 body: "Build Successful"
+    //                 )
+    //         }
+    //     }
+    // }
 }
