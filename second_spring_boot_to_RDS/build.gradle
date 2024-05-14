@@ -43,5 +43,6 @@ sonarqube {
     properties {
        	property 'sonar.host.url', 'http://54.163.26.102:9000/' // Todo : Change as per sonar server details, Move to environment variable
         property 'sonar.login', 'squ_41f8a6150fbfe0517fa302f9af7c514d946899e7' // Todo : Change as per sonar server details, Move to environment variable
+		property 'sonar.organization', 'kickdrum'
     }
 }

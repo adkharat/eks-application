@@ -43,11 +43,16 @@ stages {
     }
     stage("Static code analysis_Sonarqube"){
         steps{
+            echo "${env.SONAR_HOST_URL}"
+            echo "${env.SONAR_AUTH_TOKEN}"
+            echo "${env.SONAR_LOGIN}"
+            echo "${env.SONAR_PASSWORD}"
+            echo "${env.SONAR_LOGIN}"
             dir('first_spring_boot_to_RDS') {
                 script{
                     //Gradle build 
                     withSonarQubeEnv(credentialsId: 'sonar') {
-                            sh './gradlew sonarqube' //Make sure gradle plugin ias added in build.gradle file
+                            sh './gradlew sonar' //Make sure gradle plugin ias added in build.gradle file
                     }
                     //quality gate status check
                     timeout(time: 10, unit: 'MINUTES') {
@@ -62,7 +67,7 @@ stages {
                 script{
                     //Gradle build 
                     withSonarQubeEnv(credentialsId: 'sonar') {
-                            sh './gradlew sonarqube' //Make sure gradle plugin ias added in build.gradle file
+                            sh './gradlew sonar' //Make sure gradle plugin ias added in build.gradle file
                     }
                     //quality gate status check
                     timeout(time: 10, unit: 'MINUTES') {
