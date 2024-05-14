@@ -49,7 +49,7 @@ stages {
                     withSonarQubeEnv(credentialsId: 'sonar') {
                             sh './gradlew sonar' //Make sure gradle plugin ias added in build.gradle file
                             echo "Sonar hosta URL is ${env.SONAR_HOST_URL}"
-                            echo "Sonar auth token is${env.SONAR_AUTH_TOKEN}"
+                            echo "Sonar auth token is ${env.SONAR_AUTH_TOKEN}"
                     }
 
                     //quality gate status check
@@ -99,9 +99,13 @@ stages {
             echo "code build done on tag ${env.BUILD_NUMBER}"
         }
     }
-    stage("Test image"){
+    stage("Image vulnerability"){
         steps{
-            echo 'Testing Image'
+            echo "Started : Checking Image vulnerability"
+            sh "trivy image adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} > scanning_frontend.txt"
+            sh "trivy image adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_1.txt"
+            sh "trivy image adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_2.txt"
+            echo "Done : Checking Image vulnerability"
         }
     }
     stage("Docker Push"){
@@ -131,4 +135,28 @@ stages {
         }
     }
 }
+
+post {
+    failure {
+            mail to: 'ajay.dilip@kickdrumtech.com',
+                cc : 'ajaykharat17@gmail.com'
+            subject: "FAILED: Build ${env.JOB_NAME}", 
+            body: "Build failed ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}.\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
+    }
+    
+    success {
+            mail to: 'ajay.dilip@kickdrumtech.com',
+                cc : 'ajaykharat17@gmail.com'
+                subject: "SUCCESSFUL: Build ${env.JOB_NAME}", 
+                body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
+    }
+        
+    aborted {
+            mail to: 'ajay.dilip@kickdrumtech.com',
+                cc : 'ajaykharat17@gmail.com'
+                subject: "ABORTED: Build ${env.JOB_NAME}", 
+                body: "Build was aborted ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
+    }
+}
+
 }
