@@ -154,7 +154,7 @@ pipeline {
         
         success {
                 emailext attachmentsPattern: '*.txt',
-                    to: "${EMAIL_TO}, cc : ${EMAIL_CC}",
+                    to: "${EMAIL_TO}, ${EMAIL_CC}",
                     subject: "SUCCESSFUL: Build ${env.JOB_NAME}", 
                     body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
