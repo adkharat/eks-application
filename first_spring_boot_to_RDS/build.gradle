@@ -12,9 +12,9 @@ java {
 	sourceCompatibility = '17'
 }
 
-if (!JavaVersion.current().isCompatibleWith(VERSION_17)) {
-  throw new GradleException("JDK 17+ is required to perform this build. It's currently " + System.getProperty("java.home") + ".")
-}
+// if (!JavaVersion.current().isCompatibleWith(VERSION_17)) {
+//   throw new GradleException("JDK 17+ is required to perform this build. It's currently " + System.getProperty("java.home") + ".")
+// }
 
 configurations {
 	compileOnly {
