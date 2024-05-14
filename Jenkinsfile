@@ -102,7 +102,7 @@ pipeline {
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
         } 
-        
+
         stage("Docker Build"){
             steps{
                 echo "started docker build image for tag ${env.BUILD_NUMBER}"
@@ -158,6 +158,8 @@ pipeline {
     }
 
     post {
+        //To use advance emailext, make sure to enable extended email from /manage/configure
+
         failure {
                 emailext to: "${EMAIL_TO}", 
                     attachmentsPattern: "scanningfrontend.txt",
