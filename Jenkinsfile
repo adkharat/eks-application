@@ -78,6 +78,17 @@ stages {
             }
         }
     }
+    stage ('OWASP Dependency-Check Vulnerabilities') {
+        steps {
+            dependencyCheck additionalArguments: ''' 
+                -o "./" 
+                -s "./"
+                -f "ALL" 
+                --prettyPrint''', odcInstallation: 'DP-check'
+
+            dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+        }
+    } 
     stage("Docker Build"){
         steps{
             echo "started docker build image for tag ${env.BUILD_NUMBER}"
