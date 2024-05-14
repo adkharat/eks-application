@@ -118,7 +118,7 @@ pipeline {
                 echo "Done : Checking Image vulnerability"
             }
         }
-        stage("Docker Push"){
+        // stage("Docker Push"){
             // steps{
             //     withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
             //     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
@@ -128,7 +128,7 @@ pipeline {
             //     echo 'image pushed'
             //     }
             // }
-        }
+        // }
         // stage("Docker Clean up"){
         //     steps{
         //         echo 'Clean up started'
