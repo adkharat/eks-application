@@ -5,7 +5,7 @@ tools {
         gradle 'gradle8-7' //name of  gradle tool configured in Jenkins tool section
 }
 stages {
-    stage('Gradle') {
+    stage('Gradle version') {
         steps {
             sh 'pwd'
             sh 'ls -la'
@@ -41,7 +41,7 @@ stages {
             sh "pwd"
         }
     }
-    stage("Build"){
+    stage("Docker Build"){
         steps{
             echo "started docker build image for tag ${env.BUILD_NUMBER}"
             sh "docker build --no-cache -t adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} ./front-end-react-app"
@@ -56,7 +56,7 @@ stages {
             echo 'Testing Image'
         }
     }
-    stage("Push"){
+    stage("Docker Push"){
         steps{
             withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
             sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
@@ -67,7 +67,7 @@ stages {
             }
         }
     }
-    stage("Clean up"){
+    stage("Docker Clean up"){
         steps{
             echo 'Clean up started'
             sh "docker rmi adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER}"
@@ -80,7 +80,7 @@ stages {
         steps {
                 echo "Triggering updatemanifestjob"
                 build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
-            }
+        }
     }
 }
 }
