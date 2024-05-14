@@ -143,21 +143,21 @@ pipeline {
         failure {
                 mail to: 'ajay.dilip@kickdrumtech.com',
                     cc : 'ajaykharat17@gmail.com'
-                subject: "FAILED: Build $PROJECT_NAME", 
+                subject: "FAILED: Build ", 
                 body: "Build failed ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}.\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
         
         success {
                 mail to: 'ajay.dilip@kickdrumtech.com',
                     cc : 'ajaykharat17@gmail.com'
-                    subject: "SUCCESSFUL: Build $PROJECT_NAME", 
+                    subject: "SUCCESSFUL: Build ", 
                     body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
             
         aborted {
                 mail to: 'ajay.dilip@kickdrumtech.com',
                     cc : 'ajaykharat17@gmail.com'
-                    subject: "ABORTED: Build $PROJECT_NAME", 
+                    subject: "ABORTED: Build ", 
                     body: "Build was aborted ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
     }
