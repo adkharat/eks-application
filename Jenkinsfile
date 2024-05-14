@@ -48,8 +48,8 @@ stages {
                     //Gradle build 
                     withSonarQubeEnv(credentialsId: 'sonar') {
                             sh './gradlew sonar' //Make sure gradle plugin ias added in build.gradle file
-                            echo "${env.SONAR_HOST_URL}"
-                            echo "${env.SONAR_AUTH_TOKEN}"
+                            echo "Sonar hosta URL is ${env.SONAR_HOST_URL}"
+                            echo "Sonar auth token is${env.SONAR_AUTH_TOKEN}"
                     }
 
                     //quality gate status check
