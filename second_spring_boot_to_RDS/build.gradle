@@ -41,8 +41,7 @@ tasks.named('test') {
 
 sonarqube {
     properties {
-       	property 'sonar.host.url', 'http://18.205.238.224/:9000/' // Todo : Change as per sonar server details
-        property 'sonar.login', 'admin' // Todo : Change as per sonar server details
-		property 'sonar.password', 'squ_537d8adfdba54fd8c6c4c77b5a4d7f73beb41387' // Todo : Change as per sonar server details
+       	property 'sonar.host.url', 'http://18.205.238.224/:9000/' // Todo : Change as per sonar server details, Move to environment variable
+        property 'sonar.login', 'squ_b074cf3e5f975991ad635a349bf55bda91f53149' // Todo : Change as per sonar server details, Move to environment variable
     }
 }
