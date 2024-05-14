@@ -157,7 +157,7 @@ pipeline {
                     cc : "${EMAIL_CC}",
                     subject: "SUCCESSFUL: Build ${env.JOB_NAME}", 
                     body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}",
-                    attachmentsPattern: [file: 'scanning_frontend.txt']
+                    attachmentsPattern: 'scanning_frontend.txt'
         }
             
         aborted {
