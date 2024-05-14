@@ -21,18 +21,18 @@ pipeline {
                 sh 'gradle --version'
             }
         }
-        stage('CleanWorkspace') {
-            steps {
-                cleanWs()
-                echo 'Workspace cleaned /var/lib/jenkins/workspace'
-            }
-        }
-        stage("Clone"){
-            steps{
-                checkout scm 
-                echo 'Code clone in Workspace /var/lib/jenkins/workspace'
-            }
-        }
+        // stage('CleanWorkspace') {
+        //     steps {
+        //         cleanWs()
+        //         echo 'Workspace cleaned /var/lib/jenkins/workspace'
+        //     }
+        // }
+        // stage("Clone"){
+        //     steps{
+        //         checkout scm 
+        //         echo 'Code clone in Workspace /var/lib/jenkins/workspace'
+        //     }
+        // }
         // stage("Gradle build"){
         //     steps{
         //         echo 'Generating the Gradle build in build/lib/ folder' //https://tomgregory.com/gradle/gradle-assemble-task-essentials/
@@ -86,36 +86,36 @@ pipeline {
         //         }
         //     }
         // }
-        stage ('OWASP Dependency-Check Vulnerabilities') {
-            steps {
-                dependencyCheck additionalArguments: ''' 
-                    -o "./" 
-                    -s "./"
-                    -f "ALL" 
-                    --prettyPrint''', odcInstallation: 'DP-check'
+        // stage ('OWASP Dependency-Check Vulnerabilities') {
+        //     steps {
+        //         dependencyCheck additionalArguments: ''' 
+        //             -o "./" 
+        //             -s "./"
+        //             -f "ALL" 
+        //             --prettyPrint''', odcInstallation: 'DP-check'
 
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-            }
-        } 
-        stage("Docker Build"){
-            steps{
-                echo "started docker build image for tag ${env.BUILD_NUMBER}"
-                sh "docker build --no-cache -t adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} ./front-end-react-app"
-                // sh "docker build --no-cache -t adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./first_spring_boot_to_RDS"
-                // sh "docker build --no-cache -t adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./second_spring_boot_to_RDS"
+        //         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+        //     }
+        // } 
+        // stage("Docker Build"){
+        //     steps{
+        //         echo "started docker build image for tag ${env.BUILD_NUMBER}"
+        //         sh "docker build --no-cache -t adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} ./front-end-react-app"
+        //         // sh "docker build --no-cache -t adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./first_spring_boot_to_RDS"
+        //         // sh "docker build --no-cache -t adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} ./second_spring_boot_to_RDS"
 
-                echo "code build done on tag ${env.BUILD_NUMBER}"
-            }
-        }
-        stage("Image vulnerability"){
-            steps{
-                echo "Started : Checking Image vulnerability"
-                sh "trivy image adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} > scanning_frontend.txt"
-                // sh "trivy image adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_1.txt"
-                // sh "trivy image adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_2.txt"
-                echo "Done : Checking Image vulnerability"
-            }
-        }
+        //         echo "code build done on tag ${env.BUILD_NUMBER}"
+        //     }
+        // }
+        // stage("Image vulnerability"){
+        //     steps{
+        //         echo "Started : Checking Image vulnerability"
+        //         sh "trivy image adkharat/react-currency-exchange-app-fe:${env.BUILD_NUMBER} > scanning_frontend.txt"
+        //         // sh "trivy image adkharat/first_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_1.txt"
+        //         // sh "trivy image adkharat/second_spring_boot_to_rds_1:${env.BUILD_NUMBER} > scanning_backend_2.txt"
+        //         echo "Done : Checking Image vulnerability"
+        //     }
+        // }
         // stage("Docker Push"){
         //     steps{
         //         withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
