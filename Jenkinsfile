@@ -2,6 +2,11 @@ pipeline {
 
     agent any
 
+    environment {
+        EMAIL_TO = 'ajay.dilip@kickdrumtech.com'
+        EMAIL_CC = 'ajaykharat17@gmail.com'
+    }
+
     tools {
             // jdk 'jdk17'
             gradle 'gradle8-7' //name of  gradle tool configured in Jenkins tool section
@@ -141,23 +146,24 @@ pipeline {
 
     post {
         failure {
-                mail to: 'ajay.dilip@kickdrumtech.com',
-                    cc : 'ajaykharat17@gmail.com',
-                subject: "FAILED: Build ", 
+                mail to: "${EMAIL_TO}",
+                    cc : "${EMAIL_CC}",
+                subject: "FAILED: Build ${env.JOB_NAME}", 
                 body: "Build failed ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}.\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
         
         success {
-                mail to: 'ajay.dilip@kickdrumtech.com',
-                    cc : 'ajaykharat17@gmail.com',
-                    subject: "SUCCESSFUL: Build ", 
-                    body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
+                mail to: "${EMAIL_TO}",
+                    cc : "${EMAIL_CC}",
+                    subject: "SUCCESSFUL: Build ${env.JOB_NAME}", 
+                    body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}",
+                    attachments: [file: 'scanning_frontend.txt']
         }
             
         aborted {
-                mail to: 'ajay.dilip@kickdrumtech.com',
-                    cc : 'ajaykharat17@gmail.com',
-                    subject: "ABORTED: Build ", 
+                mail to: "${EMAIL_TO}",
+                    cc : "${EMAIL_CC}",
+                    subject: "ABORTED: Build ${env.JOB_NAME}", 
                     body: "Build was aborted ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
     }
