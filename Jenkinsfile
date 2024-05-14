@@ -158,7 +158,7 @@ pipeline {
     }
 
     post {
-        //To use advance emailext, make sure to enable extended email from /manage/configure
+        //To use advance emailext, make sure to enable Extended E-mail Notification from /manage/configure
 
         failure {
                 emailext to: "${EMAIL_TO}", 
