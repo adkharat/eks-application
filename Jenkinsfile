@@ -156,10 +156,8 @@ pipeline {
         }
         
         success {
-                emailext to: "${EMAIL_TO}",
-                    // mail to: "${EMAIL_TO}",
-                    //     cc : "${EMAIL_CC}",
-                    
+                    mail to: "${EMAIL_TO}",
+                        cc : "${EMAIL_CC}",
                     body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}",
                     subject: "SUCCESSFUL: Build ${env.JOB_NAME}"
         }
